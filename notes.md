@@ -82,7 +82,7 @@ There is also a special ViewModifier, GeometryEffect, for building geometry modi
 
 ## How to apply a ViewModifier?
 We have two ways to apply a view modifier:
-1. Apply the modifier directly to the view (e.g. Text("Some Text").BorderedLabel())
+1. Apply the modifier directly to the view (e.g. Text("Some Text").modifier(BorderedLabel()))
 2. Create an extension that use a modifier to the View itself and return the View modified
 
 ```Swift
@@ -105,8 +105,45 @@ They take a view and return a new one (remember they are structs, they are read 
 P.S. (ViewModifiers do not have var body so you do not need the SwiftUI Template when implementing on a single new file)
 
 ## Animation
+Basics:
 - Important takeaways about Animation
   - Only changes can be animated. Changes to what?
-    - ViewModifier arguments
-    - Shapes
-    - The existence (or not) of a View in the UI
+    - arguments to ViewModifiers  
+    - arguments to the cretion of Shapes
+    - the existence (or not) of a View in the UI
+- Animation is showing the user changes that have already happened (i.e.the recent past)
+  - Our code does something, makes a change, and only then swift ui triggers the animation
+- ViewModifiers are the primary change agents in the UI
+  - It is important to understand that: 
+    - A change to a ViewModifier's arguments has to happen after the View is initially put in the UI
+    - In other words: only changes in a ViewModifier's arguments since it joined the UI are animated.
+    - Not all ViewModifier's arguments are animatable (e.g. .font is not), but most are. 
+  - When a View arrives or departs, the entire thing is animated as a unit:
+    - A View coming on-screen is only animated if it is joining a container that is already in the UI.
+    - A View going off-screen is only animated if it is leaving a container that is staying in the UI.
+    - ForEach and if-else in ViewBuilders are common ways to make VIews come and go
+
+How do we make an animation "go"?
+1. Implicitly (automatically), by using the view modifier .animation(Animation)
+2. Explicitly, by wrapping withAnimation(Animation) {  } around code that might change things
+3. Indipendently, By making Views be included or excluded from the UI
+
+Again, all of the above only cause animations to "go" if the View is already part of the UI (or if the View is joining a container that is already part of the UI)
+
+### Implicit Animation
+- Automatic animation, essentially marks a View so that ...
+- All ViewModifier arguments that precede the animation modifier will always be animated
+- the changes are animated with the duration and "curve" you specify
+
+To create a simple implicit animation add a .animation(Animation) view modifier to the View you want to auto-animate.
+
+```Swift
+Text("👻")
+    .opacity(scary ? 1 : 0)
+    .rotationEffect(Angle.degrees(upsideDown ? 180 : 0))
+    .animation(Animation.easeInOut)
+```
+
+Now whenever scary or upsideDown changes, the opacity/rotation will be animated.
+All changes to arguments to animatable view modifiers preceding .animation are animated.
+Without .animation(), the changes to opacity/rotation would appear instantly on screen.
