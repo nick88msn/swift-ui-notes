@@ -65,6 +65,7 @@ An example of view modifier is:
 ```Swift
 
 struct BorderdLabel: ViewModifier{
+    var isSet: Bool
     func body(content: Content) -> some View {
         content
             .font(.caption2)
@@ -72,8 +73,12 @@ struct BorderdLabel: ViewModifier{
             .overlay(RoundedRectangle(cornerRadius:10))
     }.foregroundColor(Color.blue)
 }
-
 ```
+Where Content is the View that we are actually going to modify. 
+The code is similar to the View code, but we have func body(content:) instead of var body.
+That's beacause ViewModifiers are Views, and writing the code for one is almost identical.
+There is also a special ViewModifier, GeometryEffect, for building geometry modifiers (scaling, rotation etc..).
+
 ## How to apply a ViewModifier?
 We have two ways to apply a view modifier:
 1. Apply the modifier directly to the view (e.g. Text("Some Text").BorderedLabel())
@@ -81,8 +86,19 @@ We have two ways to apply a view modifier:
 
 ```Swift
 extension View{
-    func borderedLabel() -> some View {
-        modifier(BorderedLabel())
+    func borderedLabel(isSet: Bool) -> some View {
+        return self.modifier(BorderedLabel(isSet: isSet))
     }
 }
 ```
+
+It is important to highlight a couple of things on how this works.
+1. The content argument is just the Text view we pass
+2. We pass the arguments like in the View
+3. We could have an init (it is allowed)
+
+These arguments are crucial in ViewModifiers since when this changes it will kick off an animation.
+ViewModifiers always return a View (some View) not multiple views or something else.
+They take a view and return a new one (remember they are structs, they are read only in memory so we return always a new one).
+
+P.S. (ViewModifiers do not have var body so you do not need the SwiftUI Template when implementing on a single new file)
