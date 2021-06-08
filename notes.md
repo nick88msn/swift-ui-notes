@@ -103,3 +103,10 @@ ViewModifiers always return a View (some View) not multiple views or something e
 They take a view and return a new one (remember they are structs, they are read only in memory so we return always a new one).
 
 P.S. (ViewModifiers do not have var body so you do not need the SwiftUI Template when implementing on a single new file)
+
+## Animation
+- Important takeaways about Animation
+  - Only changes can be animated. Changes to what?
+    - ViewModifier arguments
+    - Shapes
+    - The existence (or not) of a View in the UI
