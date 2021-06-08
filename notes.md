@@ -104,7 +104,7 @@ They take a view and return a new one (remember they are structs, they are read 
 
 P.S. (ViewModifiers do not have var body so you do not need the SwiftUI Template when implementing on a single new file)
 
-## Animation
+## [Animation](https://www.youtube.com/watch?v=PoeaUMGAx6c)
 Basics:
 - Important takeaways about Animation
   - Only changes can be animated. Changes to what?
@@ -146,4 +146,10 @@ Text("👻")
 
 Now whenever scary or upsideDown changes, the opacity/rotation will be animated.
 All changes to arguments to animatable view modifiers preceding .animation are animated.
+If we put something after .animation() those will not be animated (since animation is a view modifier)
 Without .animation(), the changes to opacity/rotation would appear instantly on screen.
+
+Warning! The .animation modifier does not work well on a container.
+A container just propagates the .animation modifier to all the Views it contains.
+In other words, .animation does not work not like .padding, it works more like .font.
+It is good for single view like Text, Image etc.
