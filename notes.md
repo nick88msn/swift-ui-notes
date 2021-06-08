@@ -21,7 +21,8 @@ A basic Swift UI view can be:
 struct MyFirstView: View {
     var body: some View {
         Text("Hello World")
-    }asd
+    }
+
 }
 ```
 
@@ -56,7 +57,7 @@ Conceptually, this protocol is sort of like this...
 protocol ViewModifier{
     typealias Content //the type of the View passed to body(content:)
     func body(content: Content) -> some View {
-        return some View // that almost certainly contains the View content
+        //return some View that almost certainly contains the View content
     }
 }
 ```
