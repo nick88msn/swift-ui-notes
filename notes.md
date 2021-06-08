@@ -21,7 +21,7 @@ A basic Swift UI view can be:
 struct MyFirstView: View {
     var body: some View {
         Text("Hello World")
-    }
+    }asd
 }
 ```
 
@@ -30,3 +30,59 @@ Behaving like something in functional programming usually mean we inherit some w
 provide something to conform to the type. In the case of View, we'll see that View is a Swift protocol. 
 It is possible to create custom views by declaring types that conform to the [View](https://developer.apple.com/documentation/swiftui/view) protocol. 
 To conform to the protocol we need to implement the required body computed property to provide the content for our custom view.
+
+.....
+
+# Animation
+Animation is very important in a mobile UI.
+Swift makes very easy to do.
+There are basically two ways to do animation: 
+1. by animating a Shape
+2. by animating Views via their ViewModifiers
+
+## So what is a ViewModifier?
+View modifiers are all those little functions that modified our Views (like aspectRatio, padding etc)
+They are (likely) turning right aroud and calling a function in View called Modifier.
+e.g. .aspectRatio(2/3) is likely something like .modifier(AspectModifier(2/3))
+AspectModifier can be anything that conforms to the ViewModifier protocol.
+
+[Apple Documentation - View Modifier](https://developer.apple.com/documentation/swiftui/viewmodifier)
+A modifier that you apply to a view or another view modifier, producing a different version of the original value.
+
+ViewModifier is a protocol that lets us create a reusable modifier that can be applied to any view.
+
+Conceptually, this protocol is sort of like this...
+```Swift
+protocol ViewModifier{
+    typealias Content //the type of the View passed to body(content:)
+    func body(content: Content) -> some View {
+        return some View // that almost certainly contains the View content
+    }
+}
+```
+
+An example of view modifier is:
+```Swift
+
+struct BorderdLabel: ViewModifier{
+    func body(content: Content) -> some View {
+        content
+            .font(.caption2)
+            .padding(10)
+            .overlay(RoundedRectangle(cornerRadius:10))
+    }.foregroundColor(Color.blue)
+}
+
+```
+## How to apply a ViewModifier?
+We have two ways to apply a view modifier:
+1. Apply the modifier directly to the view (e.g. Text("Some Text").BorderedLabel())
+2. Create an extension that use a modifier to the View itself and return the View modified
+
+```Swift
+extension View{
+    func borderedLabel() -> some View {
+        modifier(BorderedLabel())
+    }
+}
+```
