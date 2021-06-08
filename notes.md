@@ -153,3 +153,50 @@ Warning! The .animation modifier does not work well on a container.
 A container just propagates the .animation modifier to all the Views it contains.
 In other words, .animation does not work not like .padding, it works more like .font.
 It is good for single view like Text, Image etc.
+
+```Swift
+//
+//  ImplicitAnimation.swift
+//  Memorize
+//
+//  Created by nick88msn on 08/06/21.
+//
+
+import SwiftUI
+
+struct AnimationView: View {
+    @State var isScary: Bool = true
+    @State var isUpsideDown: Bool = false
+    
+    var body: some View {
+        VStack{
+            Spacer()
+            Text("👻")
+                .font(.largeTitle)
+                .opacity(isScary ? 1 : 0)
+                .rotationEffect(Angle.degrees(isUpsideDown ? 180 : 0))
+                .animation(.easeInOut)
+            Button(action: {
+                isScary.toggle()
+                isUpsideDown.toggle()
+            }, label: {
+                Text(isScary ? "Press me" : "Bring me back")
+            })
+            .padding()
+            .font(.title)
+            .foregroundColor(isScary ? .primary : .secondary)
+            Spacer()
+        }
+    }
+}
+
+
+struct AnimationView_Previews: PreviewProvider {
+    static var previews: some View {
+        return AnimationView()
+            .previewDevice("iPhone 12 Pro")
+            .preferredColorScheme(.dark)
+    }
+}
+
+```
