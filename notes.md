@@ -291,3 +291,6 @@ Sometimes you want a View to move from one place on the screen to another (and p
 But what if the View is "moving" from one container to a different container? This is not really possible. Instead, you need a View in the "Source" position and a different one in the "destination" position. And then, you  must "match" their geometries up as one leaves the UI and the other arriver. So this is similat to .transition in that it is animating Views' coming and going in the UI. It's just that it's particular to the case where a pair of Views' arrivals/departures are synced. 
 
 In the memorize game a great example of this would be "dealing cards off of a deck". The "deck" might well be its own View off to the side. WHen a card is "dealt" from the deck, it needs to fly from there to the game. But the deck and game's main View are not in the same LazyVGrid or anything. How do we handle this? 
+    We mark both Views using this ViewModifier:
+        - .matchedGeometryEffect(id: ID, in: Namespace) // ID type is a generics: Hashable
+
