@@ -38,4 +38,4 @@ jobs:
           echo Converting files
           mkdir -p pdf
           pandoc -s notes.md -o pdf/notes.tex --pdf-engine=xelatex
-          pdflatex  -interaction nonstopmode -halt-on-error -file-line-error pdf/notes.tex
+          pdflatex  -interaction nonstopmode -output-directory pdf/ pdf/notes.tex
