@@ -57,7 +57,8 @@ Conceptually, this protocol is sort of like this...
 protocol ViewModifier{
     typealias Content //the type of the View passed to body(content:)
     func body(content: Content) -> some View {
-        //return some View that almost certainly contains the View content
+        //return some View that almost 
+        //certainly contains the View content
     }
 }
 ```
@@ -106,14 +107,14 @@ P.S. (ViewModifiers do not have var body so you do not need the SwiftUI Template
 
 ## [Animation](https://www.youtube.com/watch?v=PoeaUMGAx6c)
 Basics:
-- Important takeaways about Animation
+* Important takeaways about Animation
   - Only changes can be animated. Changes to what?
     - arguments to ViewModifiers  
     - arguments to the cretion of Shapes
     - the existence (or not) of a View in the UI
-- Animation is showing the user changes that have already happened (i.e.the recent past)
+* Animation is showing the user changes that have already happened (i.e.the recent past)
   - Our code does something, makes a change, and only then swift ui triggers the animation
-- ViewModifiers are the primary change agents in the UI
+* ViewModifiers are the primary change agents in the UI
   - It is important to understand that: 
     - A change to a ViewModifier's arguments has to happen after the View is initially put in the UI
     - In other words: only changes in a ViewModifier's arguments since it joined the UI are animated.
@@ -325,3 +326,12 @@ var animatableData: Type
 
 Type is a generics that has to implement the protocol VectorArithmetic.
 That's because it has to be able to be broken up into little pieces on an animation curve. 
+
+Type is very often a floating point number (FLoat, Double, CGFloat). But there is another struct that implements VectorArithmetic called AnimatablePair. AnimatablePair combines two VectorArithmetics into one VectorArithmetic.
+
+Of course you can have AnimatablePairs of AnimatablePairs, so you can animate all you want.
+Beacuse it's communicating both ways, this animatableData is a read-write var.
+- The setting of this var is the animation system telling the Shape/VM which "piece" to draw
+- The getting of this var is the animation system getting the start/end points of an animation.
+
+Usually this is a computed var (though it does not ahve to be). We might well not want to use the name "animatableData" in our Shape/VM code (using variable names that are more descriptive of what that data is to us). So the get/set very often just gets/sets some other var(s) exposing them to the animation system with a different name.
