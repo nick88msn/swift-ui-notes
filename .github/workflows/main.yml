@@ -36,5 +36,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           echo Converting files
+          mkdir -p pdf
           pandoc -s notes.md -o pdf/notes.tex --pdf-engine=xelatex
           pdflatex pdf/notes.tex
