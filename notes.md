@@ -293,4 +293,35 @@ But what if the View is "moving" from one container to a different container? Th
 In the memorize game a great example of this would be "dealing cards off of a deck". The "deck" might well be its own View off to the side. WHen a card is "dealt" from the deck, it needs to fly from there to the game. But the deck and game's main View are not in the same LazyVGrid or anything. How do we handle this? 
     We mark both Views using this ViewModifier:
         - .matchedGeometryEffect(id: ID, in: Namespace) // ID type is a generics: Hashable
+        - ID is the Identifier for our view
+        - Namespace is a token, we create this token in our view with:
+            ```Swift
+            @Namespace private var myNamespace
+            ```
+        - We use namespace when we have more than one geometry effect on the same id
 
+To write all up, we need that only one of the two is ever included in the UI at the same time. We can do this with if-else in a ViewBUilder or maybe via ForEach. Now, when one of the pair leaves and the other arrives at the same time, their size and position will be synced up and animated.
+
+### .onAppear
+Since that animations only work on Views that are in Containers that are already on screen, how can we kick off an animation as asoon as a View's Container arrives on screen?
+
+View has a nice function called .onAppear {}
+
+It executes a closure any time a View appears on screen (there's also .onDisappear {})
+
+User .onAppear {} on your container view to cause a change (usually in Model/ViewModel) that results in the appearance/animation of the View you want to be animated. Since by definition, your container is on-screen when its own .onAppear{} is happening, so any animations for its children that are appearing can fire. Of course, we need to use withAnimation inside .onAppear {}.
+
+### Shapes and ViewModifier Animation
+All actual animation happens in Shapes and ViewModifiers (even transitions and matchedGeometryEffects are just paired ViewModifiers). So how do they actually do their animation?
+
+1. Essentially, the animation system divides the animation's duration up into little pieces (along whatever "curve" the animation uses, e.g. .linear, .easeInOut, .spring, etc.)
+1. A shape or ViewModifier lets the animation system know what information it wants piece-ified (e.g. our Pie Shape is going to want to divide the Angles of the pie up into pieces)
+1. During animation, the system tells the Shape/ViewModifier the current piece it should show. The Shape/ViewModifier makes sure its body draws appropriately at any "piece" value.
+1. The communication with the anymation system happens (both ways) with a single var. Thi var is the only thing in the Animatable protocol. Shapes and ViewModifiers that want to be animatable must implement this protocol.
+
+```Swift
+var animatableData: Type
+```
+
+Type is a generics that has to implement the protocol VectorArithmetic.
+That's because it has to be able to be broken up into little pieces on an animation curve. 
