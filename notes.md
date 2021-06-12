@@ -200,3 +200,94 @@ struct AnimationView_Previews: PreviewProvider {
 }
 
 ```
+
+The argument of the .animation() ViewModifier is an Animation struct.
+It lets you control things about an animation such as:
+- its duration
+- its delay 
+- whether the animation repeat a bunch of times or even loops endlessly in repeatForever
+- its curve to control the rate at which the animation plays out:
+  - .linear, with a consistent rate throughout
+  - .easeInOut, starts out the animation slowly, picks up speed, then slows at the end
+  - .spring, provides soft landing (bounce) for the end of the animation
+
+
+### Implicit vs Explicit Animation
+Implicit animation are usually not the primary source of animation behavior.
+They are mostly used on "leaf" (i.e. non container like Text, Image etc) Views.
+Or, more generally, on Views that are typically working independently of other Views.
+
+A more common cause of animation is a change in our Model.
+Or more generally, changes in response to some user action.
+For these changes, we want a whole bunch of Views to animate together.
+For that, we use Explicit Animation.
+
+### Explicit Animation
+Explicit Animation create an animation transaction during which all eligible changes mase as a result of executing a block of code will be animated together.
+It is very easy to create one, you supply the Animation (duration, curve etc) to use and the block of code.
+
+```Swift
+withAnimation(.linear(duration:2)){
+    // do something that will cause ViewModifier/Shape arguments to change somewhere
+}
+```
+
+Explicit animations are almost always wrapped around calls to ViewModel Intent functions. But they are also wrapped around things that only change then UI like "entering editing mode.". It is fairly rare for code that handles a user gesture to not be wrapped in a withAnimation.
+
+Explicit Animations do not override an implicit animation. Those implicit animation are kind of indipendent and are not affected by an explicit animation.
+
+## Transitions
+Transitions specify how to animate the arrival/departure of Views. It only works for Views that are inside Containers that are already On-Screen. Under the covers, a transition is nothing more than a pair of ViewModifiers, One of the modifiers is the "before" modification of the View that's on the move. The other modifier is the "after" modification of the View on the move.
+Thus a transition is just a version of a "changes in arguments to ViewModifiers" animation.
+
+It is possible to have an asymmetric transition (two different transition for in and out). An asym transition has 2 pairs of ViewModifiers. One pair for when the View appears (insertion), and another pair for when the View disappers (removal).
+
+Example: A view fades in when it appears, but then flies across the screen when it disappears.
+Mostly we use "pre-canned' transitions (opacity, scaling, moving across the screen).
+They are static var/funcs on the AnyTransition struct. 
+
+All the Transition API is 'type erased'. We use the struct AnyTransition which erases type info for the underlying ViewModifiers.
+This makes a lot easier to work with transitions.
+
+Some of the built-in transitions:
+- AnyTransition.opacity (uses .opacity modifier to fate the View in and out)
+- AnyTransition.scale (uses .frame modifier to expand/shring the View as it comes and goes)
+- AnyTransition.offset(CGSize) (use .offset modifier to move the View as it comes and goes)
+- AnyTransition.modifier(active:identity:) (you provide the two ViewModifiers to use)
+
+### How to apply transitions
+How do we specify which kind of transition to use when a View arrive/departs?
+Using .transition(). Example using two built-in transitions, .scale and .identity:
+
+```Swift
+ZStack {
+    if isFacedUp{
+        RoundedRectangle(cornerRadius:10).stroke()
+        Text("👻").transition(AnyTransition.scale)
+    } else {
+        RoundedRectangle(cornerRadius: 10).transition(AnyTransition.identity)
+    }
+}
+```
+
+If isFacedUp changed from false to true (and ZStack was already on screen and we were explicitly animating) the back would disappear instantly, Text would grow in from nothing, front RondedRectangle would fade in.
+
+Unlike .animation(), .transition() does not get redistributed to a container's content Views. So putting .transition() on the ZStack above only works if the entire ZStack came/went (Group and ForEach do distribute .transition() to their content Views, however).
+
+.transition() is just specifying what the ViewModifiers are. It does not cause any animation to occurr.
+In other words, think of the word transition as a noun here, not a verb.
+You are declaring what transition to use, not causing the transition to occur.
+Most probably you are going to trigger the transition with an explicit animation.
+
+### Setting Animation Details for a Transition
+You can set an animation (curve/duration/etc.) to use for a transition.
+AnyTransition structs have a .animation(Animation) of their own you can call.
+This sets the Animation parameters to use to animate the transition.
+e.g. .transition(AnyTransition.opacity.animation(.linear(duration: 20)))
+
+## Matched Geometry Effect
+Sometimes you want a View to move from one place on the screen to another (and possibly resize along the way). If the View is moving to a new place in its same container, this is no problem. "Moving" like this is just animating the .position ViewModifier's (.position is what HStack, LazyVGrid, etc., use to position the Views inside them). This kind of thing happens automatically when you explicitly animate.
+
+But what if the View is "moving" from one container to a different container? This is not really possible. Instead, you need a View in the "Source" position and a different one in the "destination" position. And then, you  must "match" their geometries up as one leaves the UI and the other arriver. So this is similat to .transition in that it is animating Views' coming and going in the UI. It's just that it's particular to the case where a pair of Views' arrivals/departures are synced. 
+
+In the memorize game a great example of this would be "dealing cards off of a deck". The "deck" might well be its own View off to the side. WHen a card is "dealt" from the deck, it needs to fly from there to the game. But the deck and game's main View are not in the same LazyVGrid or anything. How do we handle this? 
