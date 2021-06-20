@@ -1,8 +1,16 @@
 # Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Swift UI](#swift-ui)
-  - [Set up your first app](#set-up-your-first-app)
-  - [Your first view](#your-first-view)
+  - [Set up your first iOS app](#set-up-your-first-ios-app)
+  - [Xcode](#xcode)
+    - [Navigator](#navigator)
+    - [Inspector](#inspector)
+    - [Main editing window](#main-editing-window)
+  - [Assets](#assets)
+  - [Info.plist](#infoplist)
+  - [AppnameApp.swift](#appnameappswift)
+  - [ContentView.swift : Your first view](#contentviewswift--your-first-view)
+    - [ContentView_Previews](#contentview_previews)
 - [Animation](#animation)
   - [So what is a ViewModifier?](#so-what-is-a-viewmodifier)
   - [How to apply a ViewModifier?](#how-to-apply-a-viewmodifier)
@@ -25,7 +33,7 @@ Swift UI uses the Swift programming language [Swift Notes](https://github.com/ni
 To program on Swift UI download the Apple Developer Tool (no Apple Developer Program needed) [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
 From iPad OS 15 you can use [Swift Playgrounds](https://apps.apple.com/app/id908519492) to build and publish an iOS app using Swift UI.
 
-## Set up your first app
+## [Set up your first iOS app](https://www.youtube.com/watch?v=bqu6BquVi2M)
 1. Launch Xcode
 2. Create a new Xcode project
 3. Choose which template you need (e.g. iOS app, macOS app, watchOS app, multiplatform app)
@@ -35,18 +43,47 @@ From iPad OS 15 you can use [Swift Playgrounds](https://apps.apple.com/app/id908
    1. Add product name (app name)
    2. Development Team (create a development team and add your apple id)
    3. Organization Identifier: a string that identify your company or person as individual (it is written in reverse dns notation)
-   4. 
+   4. Interface
+      1. Swift UI
+      2. Storyboard (old way of building UI)
+   5. Lifecycle
+      1. Swift UI app
+      2. UIKit
+   6. Language
+      1. Swift (only choice if you choose SwiftUI)
+      2. Objective C
+   7. Core Data (Object oriented database ORM)
+   8. Tests (to test UI)
+7. Choose a folder, better if in the home directory in a folder named Directory
+8. Remember to create a Git repository under (Source Control)
 
-## Your first view
-Swift UI does a great job separating the interface from the logic.
-A View and most of the types we are gonna use in Swift UI are Struct.
-Struct are commons in other language programs are an abbreviation for 
-Data Structure. A struct can be seen as a collections of variables, however we'll
-see they are powerful types on which most of the Swift UI elements are built up.
-Struct have variables but can also have functions. They are similar to classes
-but we'll see they lack inheritance. Struct are not object oriented things.
-Swift support also classes and supports both Object Oriented Programming or Functional Programming.
-We'll use OOP to hook our models to the UI, while our logic and UI will basically a set of structs.
+## Xcode
+### Navigator
+Left panel is called Navigator. It lets you navigate inside your navigation.
+There are several button on top. Each one lets you navigate in a different way:
+- by file (default)
+- by searching
+- by debugging
+- ....
+
+### Inspector
+Right panel is called Inspector and lets you inspect elements and their properties dinamically
+
+### Main editing window
+Is in the center. Can be split up with the Previewer that previews our UI without running in the simulator or with another file. On top of our main window we can find a breadcumb navigator that let us know where are we and what we have selected.
+
+## Assets
+Assets are accessible from the folder Assets.xcassets. Usually you drag files inside assets and than give a name like a variable. AppIcon is a special asset that requires more formats of images. 
+
+## Info.plist
+Info is essentially the settings of our App. Although we probably never gonna use it since its interface is a little bit raw and cumbersome. Instead clicking on top of our project (with the blue app store icon) we got a nice UI for editing the same settings.  
+
+## AppnameApp.swift
+It is the main file. It does not do much other than launching the app calling the main view.
+
+## ContentView.swift : Your first view
+Swift UI does a great job separating the interface from the logic. A View and most of the types we are gonna use in Swift UI are Struct. Struct are commons in other language programs are an abbreviation for Data Structure. A struct can be seen as a collections of variables, however we'll see they are powerful types on which most of the Swift UI elements are built up.
+Struct have variables but can also have functions. They are similar to classes but we'll see they lack inheritance. Struct are not object oriented things. Swift support also classes and supports both Object Oriented Programming or Functional Programming. We'll use OOP to hook our models to the UI, while our logic and UI will basically a set of structs.
 
 A basic Swift UI view can be:
 ```Swift
@@ -58,13 +95,10 @@ struct MyFirstView: View {
 }
 ```
 
-In functional programming the behavior of things is important. In this case the struct MyFirstView "behaves" like a View.
-Behaving like something in functional programming usually mean we inherit some work already done for us but also means we may need to 
-provide something to conform to the type. In the case of View, we'll see that View is a Swift protocol. 
-It is possible to create custom views by declaring types that conform to the [View](https://developer.apple.com/documentation/swiftui/view) protocol. 
-To conform to the protocol we need to implement the required body computed property to provide the content for our custom view.
+In functional programming the behavior of things is important. In this case the struct MyFirstView "behaves" like a View. Behaving like something in functional programming usually mean we inherit some work already done for us but also means we may need to provide something to conform to the type. In the case of View, we'll see that View is a Swift protocol. It is possible to create custom views by declaring types that conform to the [View](https://developer.apple.com/documentation/swiftui/view) protocol. To conform to the protocol we need to implement the required body computed property to provide the content for our custom view.
 
-
+### ContentView_Previews
+While ContentView is what we see in the main view of the app, ContentView_Previews is not part of the Application. It is there to initialize the Preview. 
 .....
 
 # Animation
