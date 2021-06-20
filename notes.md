@@ -1,9 +1,41 @@
-# Swift UI
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Swift UI](#swift-ui)
+  - [Set up your first app](#set-up-your-first-app)
+  - [Your first view](#your-first-view)
+- [Animation](#animation)
+  - [So what is a ViewModifier?](#so-what-is-a-viewmodifier)
+  - [How to apply a ViewModifier?](#how-to-apply-a-viewmodifier)
+  - [Animation](#animation-1)
+    - [Implicit Animation](#implicit-animation)
+    - [Implicit vs Explicit Animation](#implicit-vs-explicit-animation)
+    - [Explicit Animation](#explicit-animation)
+  - [Transitions](#transitions)
+    - [How to apply transitions](#how-to-apply-transitions)
+    - [Setting Animation Details for a Transition](#setting-animation-details-for-a-transition)
+  - [Matched Geometry Effect](#matched-geometry-effect)
+    - [.onAppear](#onappear)
+    - [Shapes and ViewModifier Animation](#shapes-and-viewmodifier-animation)
 
+# Swift UI
 A declarative user interface for developing apps on every Apple platform.
 SwiftUI provides views, controls, and layout structures for declaring your app user interface. The framework provides event handlers for delivering taps, gestures, and other types of input, and tools to manage the flow of data from app’s models down to the views and controls. [Apple Official Documnentation](https://developer.apple.com/documentation/swiftui/)
 
 Swift UI uses the Swift programming language [Swift Notes](https://github.com/nick88msn/swift-starter-kit)
+To program on Swift UI download the Apple Developer Tool (no Apple Developer Program needed) [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+From iPad OS 15 you can use [Swift Playgrounds](https://apps.apple.com/app/id908519492) to build and publish an iOS app using Swift UI.
+
+## Set up your first app
+1. Launch Xcode
+2. Create a new Xcode project
+3. Choose which template you need (e.g. iOS app, macOS app, watchOS app, multiplatform app)
+4. Inside iOS app we can build more than one type of app (e.g. App, Document App, Game App, Augmented Reality App, Sticker Pack App, iMessage App)
+5. Select App
+6. Add info required to build the app
+   1. Add product name (app name)
+   2. Development Team (create a development team and add your apple id)
+   3. Organization Identifier: a string that identify your company or person as individual (it is written in reverse dns notation)
+   4. 
 
 ## Your first view
 Swift UI does a great job separating the interface from the logic.
@@ -31,6 +63,7 @@ Behaving like something in functional programming usually mean we inherit some w
 provide something to conform to the type. In the case of View, we'll see that View is a Swift protocol. 
 It is possible to create custom views by declaring types that conform to the [View](https://developer.apple.com/documentation/swiftui/view) protocol. 
 To conform to the protocol we need to implement the required body computed property to provide the content for our custom view.
+
 
 .....
 
