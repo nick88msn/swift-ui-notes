@@ -56,6 +56,73 @@
 
 \begin{document}
 
+\hypertarget{table-of-contents}{%
+\section{Table of Contents}\label{table-of-contents}}
+
+\begin{itemize}
+\tightlist
+\item
+  \protect\hyperlink{table-of-contents}{Table of Contents}
+\item
+  \protect\hyperlink{swift-ui}{Swift UI}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \protect\hyperlink{set-up-your-first-app}{Set up your first app}
+  \item
+    \protect\hyperlink{your-first-view}{Your first view}
+  \end{itemize}
+\item
+  \protect\hyperlink{animation}{Animation}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \protect\hyperlink{so-what-is-a-viewmodifier}{So what is a
+    ViewModifier?}
+  \item
+    \protect\hyperlink{how-to-apply-a-viewmodifier}{How to apply a
+    ViewModifier?}
+  \item
+    \protect\hyperlink{animation-1}{Animation}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{implicit-animation}{Implicit Animation}
+    \item
+      \protect\hyperlink{implicit-vs-explicit-animation}{Implicit vs
+      Explicit Animation}
+    \item
+      \protect\hyperlink{explicit-animation}{Explicit Animation}
+    \end{itemize}
+  \item
+    \protect\hyperlink{transitions}{Transitions}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{how-to-apply-transitions}{How to apply
+      transitions}
+    \item
+      \protect\hyperlink{setting-animation-details-for-a-transition}{Setting
+      Animation Details for a Transition}
+    \end{itemize}
+  \item
+    \protect\hyperlink{matched-geometry-effect}{Matched Geometry Effect}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{onappear}{.onAppear}
+    \item
+      \protect\hyperlink{shapes-and-viewmodifier-animation}{Shapes and
+      ViewModifier Animation}
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
 \hypertarget{swift-ui}{%
 \section{Swift UI}\label{swift-ui}}
 
@@ -69,7 +136,48 @@ controls.
 Documnentation}
 
 Swift UI uses the Swift programming language
-\href{https://github.com/nick88msn/swift-starter-kit}{Swift Notes}
+\href{https://github.com/nick88msn/swift-starter-kit}{Swift Notes} To
+program on Swift UI download the Apple Developer Tool (no Apple
+Developer Program needed)
+\href{https://apps.apple.com/us/app/xcode/id497799835?mt=12}{Xcode} From
+iPad OS 15 you can use
+\href{https://apps.apple.com/app/id908519492}{Swift Playgrounds} to
+build and publish an iOS app using Swift UI.
+
+\hypertarget{set-up-your-first-app}{%
+\subsection{Set up your first app}\label{set-up-your-first-app}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Launch Xcode
+\item
+  Create a new Xcode project
+\item
+  Choose which template you need (e.g.~iOS app, macOS app, watchOS app,
+  multiplatform app)
+\item
+  Inside iOS app we can build more than one type of app (e.g.~App,
+  Document App, Game App, Augmented Reality App, Sticker Pack App,
+  iMessage App)
+\item
+  Select App
+\item
+  Add info required to build the app
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \item
+    Add product name (app name)
+  \item
+    Development Team (create a development team and add your apple id)
+  \item
+    Organization Identifier: a string that identify your company or
+    person as individual (it is written in reverse dns notation)
+  \item
+  \end{enumerate}
+\end{enumerate}
 
 \hypertarget{your-first-view}{%
 \subsection{Your first view}\label{your-first-view}}
@@ -141,7 +249,8 @@ Conceptually, this protocol is sort of like this\ldots{}
 protocol ViewModifier{
     typealias Content //the type of the View passed to body(content:)
     func body(content: Content) -> some View {
-        //return some View that almost certainly contains the View content
+        //return some View that almost 
+        //certainly contains the View content
     }
 }
 \end{verbatim}
@@ -201,12 +310,12 @@ Template when implementing on a single new file)
 \hypertarget{animation-1}{%
 \subsection{\texorpdfstring{\href{https://www.youtube.com/watch?v=PoeaUMGAx6c}{Animation}}{Animation}}\label{animation-1}}
 
-Basics: - Important takeaways about Animation - Only changes can be
+Basics: * Important takeaways about Animation - Only changes can be
 animated. Changes to what? - arguments to ViewModifiers\\
 - arguments to the cretion of Shapes - the existence (or not) of a View
-in the UI - Animation is showing the user changes that have already
+in the UI * Animation is showing the user changes that have already
 happened (i.e.the recent past) - Our code does something, makes a
-change, and only then swift ui triggers the animation - ViewModifiers
+change, and only then swift ui triggers the animation * ViewModifiers
 are the primary change agents in the UI - It is important to understand
 that: - A change to a ViewModifier's arguments has to happen after the
 View is initially put in the UI - In other words: only changes in a
@@ -522,5 +631,27 @@ So how do they actually do their animation?
 \begin{verbatim}
 var animatableData: Type
 \end{verbatim}
+
+Type is a generics that has to implement the protocol VectorArithmetic.
+That's because it has to be able to be broken up into little pieces on
+an animation curve.
+
+Type is very often a floating point number (FLoat, Double, CGFloat). But
+there is another struct that implements VectorArithmetic called
+AnimatablePair. AnimatablePair combines two VectorArithmetics into one
+VectorArithmetic.
+
+Of course you can have AnimatablePairs of AnimatablePairs, so you can
+animate all you want. Beacuse it's communicating both ways, this
+animatableData is a read-write var. - The setting of this var is the
+animation system telling the Shape/VM which ``piece'' to draw - The
+getting of this var is the animation system getting the start/end points
+of an animation.
+
+Usually this is a computed var (though it does not ahve to be). We might
+well not want to use the name ``animatableData'' in our Shape/VM code
+(using variable names that are more descriptive of what that data is to
+us). So the get/set very often just gets/sets some other var(s) exposing
+them to the animation system with a different name.
 
 \end{document}
