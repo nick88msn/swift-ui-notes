@@ -69,9 +69,35 @@
   \begin{itemize}
   \tightlist
   \item
-    \protect\hyperlink{set-up-your-first-app}{Set up your first app}
+    \protect\hyperlink{set-up-your-first-ios-app}{Set up your first iOS
+    app}
   \item
-    \protect\hyperlink{your-first-view}{Your first view}
+    \protect\hyperlink{xcode}{Xcode}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{navigator}{Navigator}
+    \item
+      \protect\hyperlink{inspector}{Inspector}
+    \item
+      \protect\hyperlink{main-editing-window}{Main editing window}
+    \end{itemize}
+  \item
+    \protect\hyperlink{assets}{Assets}
+  \item
+    \protect\hyperlink{infoplist}{Info.plist}
+  \item
+    \protect\hyperlink{appnameappswift}{AppnameApp.swift}
+  \item
+    \protect\hyperlink{contentviewswift--your-first-view}{ContentView.swift
+    : Your first view}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \protect\hyperlink{contentview_previews}{ContentView\_Previews}
+    \end{itemize}
   \end{itemize}
 \item
   \protect\hyperlink{animation}{Animation}
@@ -144,8 +170,10 @@ iPad OS 15 you can use
 \href{https://apps.apple.com/app/id908519492}{Swift Playgrounds} to
 build and publish an iOS app using Swift UI.
 
-\hypertarget{set-up-your-first-app}{%
-\subsection{Set up your first app}\label{set-up-your-first-app}}
+\hypertarget{set-up-your-first-ios-app}{%
+\subsection{\texorpdfstring{\href{https://www.youtube.com/watch?v=bqu6BquVi2M}{Set
+up your first iOS
+app}}{Set up your first iOS app}}\label{set-up-your-first-ios-app}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -168,6 +196,7 @@ build and publish an iOS app using Swift UI.
 
   \begin{enumerate}
   \def\labelenumii{\arabic{enumii}.}
+  \tightlist
   \item
     Add product name (app name)
   \item
@@ -176,11 +205,99 @@ build and publish an iOS app using Swift UI.
     Organization Identifier: a string that identify your company or
     person as individual (it is written in reverse dns notation)
   \item
+    Interface
+
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      Swift UI
+    \item
+      Storyboard (old way of building UI)
+    \end{enumerate}
+  \item
+    Lifecycle
+
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      Swift UI app
+    \item
+      UIKit
+    \end{enumerate}
+  \item
+    Language
+
+    \begin{enumerate}
+    \def\labelenumiii{\arabic{enumiii}.}
+    \tightlist
+    \item
+      Swift (only choice if you choose SwiftUI)
+    \item
+      Objective C
+    \end{enumerate}
+  \item
+    Core Data (Object oriented database ORM)
+  \item
+    Tests (to test UI)
   \end{enumerate}
+\item
+  Choose a folder, better if in the home directory in a folder named
+  Directory
+\item
+  Remember to create a Git repository under (Source Control)
 \end{enumerate}
 
-\hypertarget{your-first-view}{%
-\subsection{Your first view}\label{your-first-view}}
+\hypertarget{xcode}{%
+\subsection{Xcode}\label{xcode}}
+
+\hypertarget{navigator}{%
+\subsubsection{Navigator}\label{navigator}}
+
+Left panel is called Navigator. It lets you navigate inside your
+navigation. There are several button on top. Each one lets you navigate
+in a different way: - by file (default) - by searching - by debugging -
+\ldots{}.
+
+\hypertarget{inspector}{%
+\subsubsection{Inspector}\label{inspector}}
+
+Right panel is called Inspector and lets you inspect elements and their
+properties dinamically
+
+\hypertarget{main-editing-window}{%
+\subsubsection{Main editing window}\label{main-editing-window}}
+
+Is in the center. Can be split up with the Previewer that previews our
+UI without running in the simulator or with another file. On top of our
+main window we can find a breadcumb navigator that let us know where are
+we and what we have selected.
+
+\hypertarget{assets}{%
+\subsection{Assets}\label{assets}}
+
+Assets are accessible from the folder Assets.xcassets. Usually you drag
+files inside assets and than give a name like a variable. AppIcon is a
+special asset that requires more formats of images.
+
+\hypertarget{info.plist}{%
+\subsection{Info.plist}\label{info.plist}}
+
+Info is essentially the settings of our App. Although we probably never
+gonna use it since its interface is a little bit raw and cumbersome.
+Instead clicking on top of our project (with the blue app store icon) we
+got a nice UI for editing the same settings.
+
+\hypertarget{appnameapp.swift}{%
+\subsection{AppnameApp.swift}\label{appnameapp.swift}}
+
+It is the main file. It does not do much other than launching the app
+calling the main view.
+
+\hypertarget{contentview.swift-your-first-view}{%
+\subsection{ContentView.swift : Your first
+view}\label{contentview.swift-your-first-view}}
 
 Swift UI does a great job separating the interface from the logic. A
 View and most of the types we are gonna use in Swift UI are Struct.
@@ -216,7 +333,12 @@ conform to the
 protocol. To conform to the protocol we need to implement the required
 body computed property to provide the content for our custom view.
 
-\ldots{}..
+\hypertarget{contentview_previews}{%
+\subsubsection{ContentView\_Previews}\label{contentview_previews}}
+
+While ContentView is what we see in the main view of the app,
+ContentView\_Previews is not part of the Application. It is there to
+initialize the Preview. \ldots{}..
 
 \hypertarget{animation}{%
 \section{Animation}\label{animation}}
