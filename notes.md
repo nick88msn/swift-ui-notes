@@ -10,7 +10,10 @@
   - [Info.plist](#infoplist)
   - [AppnameApp.swift](#appnameappswift)
   - [ContentView.swift : Your first view](#contentviewswift--your-first-view)
+    - [Some](#some)
+    - [Text](#text)
     - [ContentView_Previews](#contentview_previews)
+    - [Padding](#padding)
 - [Animation](#animation)
   - [So what is a ViewModifier?](#so-what-is-a-viewmodifier)
   - [How to apply a ViewModifier?](#how-to-apply-a-viewmodifier)
@@ -95,11 +98,40 @@ struct MyFirstView: View {
 }
 ```
 
-In functional programming the behavior of things is important. In this case the struct MyFirstView "behaves" like a View. Behaving like something in functional programming usually mean we inherit some work already done for us but also means we may need to provide something to conform to the type. In the case of View, we'll see that View is a Swift protocol. It is possible to create custom views by declaring types that conform to the [View](https://developer.apple.com/documentation/swiftui/view) protocol. To conform to the protocol we need to implement the required body computed property to provide the content for our custom view.
+In functional programming the behavior of things is important. In a Struct we define how things works with function. It also describe the storage but it does not encapsulate the storate. It says what data there is in the struct, it describes them but it does not care of values and how these variables are stored. In this case the struct MyFirstView "behaves" like a View. Behaving like something in functional programming usually mean we inherit some work already done for us but also means we may need to provide something to conform to the type. In the case of View, we'll see that View is a Swift protocol. It is possible to create custom views by declaring types that conform to the [View](https://developer.apple.com/documentation/swiftui/view) protocol. To conform to the protocol we need to implement the required body computed property to provide the content for our custom view. To declare a variable inside a struct the syntax is simple:
+
+```Swift
+var body: some View {
+    //some view in here
+}
+```
+
+Colon some View indicates the type. It is more complicated than just declaring a variable in swift:
+
+```Swift
+var i: Int
+var s: String
+```
+
+### Some
+There is also a weird some keyword. Why is the body some instead of the type?
+It is literal, the variable body behaves something like a View. We don't know what is gonna return, but we know that the body variable return one or a set of more sub-views that are encapsulated together (lego example). In this case we wanna tell to the compiler to check if what the var body returns behaves like some View (it could be text, image, combined views etc.) without knowing what are we gonna return. If we replace "some View" with "Text" it is still gonna work, but when we are going to change the body and things get more complicated, it may break.
+
+After some view we have something that looks like a function. Indeed it is a function. In functional programming we can drop functions everywhere. This function does not take arguments, does not need a name, it does not need one. This function return a Text. The return statement is implicit (you can add it if you want to try, it still works). 
+
+How come we have a function right after a variable?
+The var body is not actually stored in memory, it is a variable that is calculated executing this function. Everytime someone asks the content of this struct, Swift UI executes the function and return the calculated value. 
+
+### Text
+What is a Text?
+[Text](https://developer.apple.com/documentation/swiftui/text) is another struct that behaves like a View. From Apple docs the definition is the following:
+    A view that displays one or more lines of read-only text.
 
 ### ContentView_Previews
-While ContentView is what we see in the main view of the app, ContentView_Previews is not part of the Application. It is there to initialize the Preview. 
-.....
+While ContentView is what we see in the main view of the app, ContentView_Previews is not part of the Application. It is there to initialize the Preview.
+
+### Padding
+[Padding](https://developer.apple.com/documentation/swiftui/text/padding(_:)-5wi61) is a function that can be applied to every struct that behaves like a View. It is a function that return a new View modified (in this case with added padding to the original view). It is actually a ViewModifier. So, when we add padding to a Text the result is not gonna be a Text but some kind of View.
 
 # Animation
 Animation is very important in a mobile UI.
