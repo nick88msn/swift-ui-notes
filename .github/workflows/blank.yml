@@ -38,3 +38,13 @@ jobs:
           mkdir -p pdf
           pandoc -s notes.md -o pdf/notes.tex --pdf-engine=xelatex
           pandoc -s pdf/notes.tex -o pdf/notes.pdf --pdf-engine=xelatex
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Add changes" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.WORKFLOW_TOKEN }}
+          branch: ${{ github.ref }}
